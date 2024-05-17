@@ -1,0 +1,2 @@
+# prepareless
+goal: complete hackathon.
