@@ -119,7 +119,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "290863c19a06e8294dadb1b3c8f63b6c0158c3b688c547b19da9c601894d0a78.zip"
+     "S3Key": "b211f1865c606b136e56cc04d6fe5c04499abbf2c94b78eb47a8369fc6872c35.zip"
     },
     "Environment": {
      "Variables": {
@@ -146,7 +146,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ChatbotStack/ChatbotHandler/Resource",
-    "aws:asset:path": "asset.290863c19a06e8294dadb1b3c8f63b6c0158c3b688c547b19da9c601894d0a78",
+    "aws:asset:path": "asset.b211f1865c606b136e56cc04d6fe5c04499abbf2c94b78eb47a8369fc6872c35",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -244,7 +244,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "290863c19a06e8294dadb1b3c8f63b6c0158c3b688c547b19da9c601894d0a78.zip"
+     "S3Key": "b211f1865c606b136e56cc04d6fe5c04499abbf2c94b78eb47a8369fc6872c35.zip"
     },
     "Environment": {
      "Variables": {
@@ -271,7 +271,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ChatbotStack/BedrockHandler/Resource",
-    "aws:asset:path": "asset.290863c19a06e8294dadb1b3c8f63b6c0158c3b688c547b19da9c601894d0a78",
+    "aws:asset:path": "asset.b211f1865c606b136e56cc04d6fe5c04499abbf2c94b78eb47a8369fc6872c35",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

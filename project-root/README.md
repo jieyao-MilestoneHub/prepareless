@@ -47,7 +47,7 @@ npm run cdk deploy
 登入AWS管理控制台。
 在服務清單中，選擇“API Gateway”。
 2. 找到你的API並建立一個測試請求
-在API Gateway控制台，找到並選擇你所建立的API（例如，ChatbotApi）。
+在API Gateway控制台，找到並選擇你所建立的API（例如，Chatbot Service）。
 在左側導覽列中，選擇「Resources」以查看API資源和方法。
 找到你的POST方法，點擊以選擇它。
 在右側的「Method Execution」頁面上，選擇「Test」按鈕。

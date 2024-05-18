@@ -1,30 +1,28 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const uuid_1 = require("uuid");
-const client_bedrock_runtime_1 = require("@aws-sdk/client-bedrock-runtime");
+const axios_1 = __importDefault(require("axios"));
 const db = new aws_sdk_1.DynamoDB.DocumentClient();
-const bedrockClient = new client_bedrock_runtime_1.BedrockRuntimeClient({ region: process.env.REGION });
+const bedrockEndpoint = process.env.BEDROCK_ENDPOINT || '';
+const apiKey = process.env.BEDROCK_API_KEY || '';
 const invokeClaude3Sonnet = async (userMessage) => {
-    const input = {
-        body: new TextEncoder().encode(userMessage),
-        contentType: 'application/json',
-        accept: 'application/json',
-        modelId: 'claude-3-sonnet'
+    const payload = {
+        model: 'claude-3-sonnet',
+        input: userMessage
     };
-    const command = new client_bedrock_runtime_1.InvokeModelCommand(input);
     try {
-        const response = await bedrockClient.send(command);
-        // Ensure the response structure is correct
-        if ('body' in response) {
-            const responseBody = new TextDecoder().decode(response.body);
-            const parsedResponse = JSON.parse(responseBody);
-            if ('outputText' in parsedResponse) {
-                return parsedResponse.outputText;
+        const response = await axios_1.default.post(bedrockEndpoint, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
             }
-        }
-        throw new Error('Invalid response from Bedrock');
+        });
+        return response.data.output;
     }
     catch (error) {
         console.error('Error invoking Bedrock endpoint:', error);
@@ -37,7 +35,6 @@ const handler = async (event) => {
     const userMessage = body.message;
     const chatId = (0, uuid_1.v4)();
     const timestamp = new Date().toISOString();
-    // Save user message to DynamoDB
     const userMessageParams = {
         TableName: process.env.TABLE_NAME || '',
         Item: {
@@ -60,7 +57,6 @@ const handler = async (event) => {
             })
         };
     }
-    // Invoke Bedrock API
     let botResponse;
     try {
         botResponse = await invokeClaude3Sonnet(userMessage);
@@ -74,7 +70,6 @@ const handler = async (event) => {
             })
         };
     }
-    // Save bot response to DynamoDB
     const botMessageParams = {
         TableName: process.env.TABLE_NAME || '',
         Item: {
