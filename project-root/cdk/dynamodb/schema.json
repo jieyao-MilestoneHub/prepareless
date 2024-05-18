@@ -1,0 +1,13 @@
+{
+    "TableName": "ChatHistoryTable",
+    "KeySchema": [
+        { "AttributeName": "chatId", "KeyType": "HASH" }
+    ],
+    "AttributeDefinitions": [
+        { "AttributeName": "chatId", "AttributeType": "S" }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }
+}

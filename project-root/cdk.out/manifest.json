@@ -1,0 +1,149 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "ChatbotStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ChatbotStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ChatbotStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ChatbotStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/182c33a847e24def9df1f376745e86c2b082a8076cb4d45f30b74619b55b982e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ChatbotStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ChatbotStack.assets"
+      ],
+      "metadata": {
+        "/ChatbotStack/ChatHistoryTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatHistoryTableA22BA13C"
+          }
+        ],
+        "/ChatbotStack/ChatbotHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotHandlerServiceRole088F75C8"
+          }
+        ],
+        "/ChatbotStack/ChatbotHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotHandlerServiceRoleDefaultPolicy4C261DB5"
+          }
+        ],
+        "/ChatbotStack/ChatbotHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotHandler86E97C39"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiF211B502"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiCloudWatchRoleD8E3EB91"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiAccountB559E9CC"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiDeploymentB78958154a4eb74eaeff310a0bca16f7b24a305e"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiDeploymentStageprod27096855"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiEndpointAA2295B0"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/POST/ApiPermission.ChatbotStackChatbotApiCFAF7945.POST..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiPOSTApiPermissionChatbotStackChatbotApiCFAF7945POSTB8041806"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/POST/ApiPermission.Test.ChatbotStackChatbotApiCFAF7945.POST..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiPOSTApiPermissionTestChatbotStackChatbotApiCFAF7945POSTFBFDE8AC"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApiPOSTAD31DB37"
+          }
+        ],
+        "/ChatbotStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ChatbotStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/ChatbotStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ChatbotStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ChatbotStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
