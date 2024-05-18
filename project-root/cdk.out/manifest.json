@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/182c33a847e24def9df1f376745e86c2b082a8076cb4d45f30b74619b55b982e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/87fd3b89dd31e0d4014f20e1bb20cba80b998f0102fd71c3350d74680e445144.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -58,6 +58,24 @@
             "data": "ChatbotHandler86E97C39"
           }
         ],
+        "/ChatbotStack/BedrockHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockHandlerServiceRole4824177D"
+          }
+        ],
+        "/ChatbotStack/BedrockHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockHandlerServiceRoleDefaultPolicy5F4A95FB"
+          }
+        ],
+        "/ChatbotStack/BedrockHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockHandler433D43D0"
+          }
+        ],
         "/ChatbotStack/ChatbotApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -79,7 +97,7 @@
         "/ChatbotStack/ChatbotApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ChatbotApiDeploymentB78958154a4eb74eaeff310a0bca16f7b24a305e"
+            "data": "ChatbotApiDeploymentB7895815613f95d161e8f82d6fb6687c8022babb"
           }
         ],
         "/ChatbotStack/ChatbotApi/DeploymentStage.prod/Resource": [
@@ -94,22 +112,64 @@
             "data": "ChatbotApiEndpointAA2295B0"
           }
         ],
-        "/ChatbotStack/ChatbotApi/Default/POST/ApiPermission.ChatbotStackChatbotApiCFAF7945.POST..": [
+        "/ChatbotStack/ChatbotApi/Default/chatbot/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ChatbotApiPOSTApiPermissionChatbotStackChatbotApiCFAF7945POSTB8041806"
+            "data": "ChatbotApichatbot83533512"
           }
         ],
-        "/ChatbotStack/ChatbotApi/Default/POST/ApiPermission.Test.ChatbotStackChatbotApiCFAF7945.POST..": [
+        "/ChatbotStack/ChatbotApi/Default/chatbot/POST/ApiPermission.ChatbotStackChatbotApiCFAF7945.POST..chatbot": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ChatbotApiPOSTApiPermissionTestChatbotStackChatbotApiCFAF7945POSTFBFDE8AC"
+            "data": "ChatbotApichatbotPOSTApiPermissionChatbotStackChatbotApiCFAF7945POSTchatbot6B19407F"
           }
         ],
-        "/ChatbotStack/ChatbotApi/Default/POST/Resource": [
+        "/ChatbotStack/ChatbotApi/Default/chatbot/POST/ApiPermission.Test.ChatbotStackChatbotApiCFAF7945.POST..chatbot": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ChatbotApiPOSTAD31DB37"
+            "data": "ChatbotApichatbotPOSTApiPermissionTestChatbotStackChatbotApiCFAF7945POSTchatbot4AC99735"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/chatbot/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApichatbotPOSTB6D8E4CE"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/bedrock/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApibedrock903D0EAE"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/bedrock/POST/ApiPermission.ChatbotStackChatbotApiCFAF7945.POST..bedrock": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApibedrockPOSTApiPermissionChatbotStackChatbotApiCFAF7945POSTbedrockBD7E2A30"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/bedrock/POST/ApiPermission.Test.ChatbotStackChatbotApiCFAF7945.POST..bedrock": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApibedrockPOSTApiPermissionTestChatbotStackChatbotApiCFAF7945POSTbedrockFF32F82C"
+          }
+        ],
+        "/ChatbotStack/ChatbotApi/Default/bedrock/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ChatbotApibedrockPOSTD8346D85"
+          }
+        ],
+        "/ChatbotStack/ApiGatewayRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayRoleD2518903"
+          }
+        ],
+        "/ChatbotStack/ApiGatewayRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayRoleDefaultPolicyC1776BBE"
           }
         ],
         "/ChatbotStack/CDKMetadata/Default": [

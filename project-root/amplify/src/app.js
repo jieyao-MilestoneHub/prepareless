@@ -3,7 +3,7 @@ console.log('Hello, Serverless LLM Assistant!');
 const messagesList = document.getElementById('messages');
 const messageInput = document.getElementById('message-input');
 
-function sendMessage() {
+async function sendMessage() {
     const message = messageInput.value.trim();
     if (message === '') {
         return;
@@ -17,15 +17,28 @@ function sendMessage() {
     // Clear the input
     messageInput.value = '';
 
-    // Simulate a response from the chatbot
-    setTimeout(() => {
+    // Call the API Gateway endpoint
+    try {
+        const response = await fetch('https://<your-api-gateway-endpoint>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        });
+        const data = await response.json();
         const responseElement = document.createElement('li');
-        responseElement.textContent = `Bot: I received your message: "${message}"`;
+        responseElement.textContent = `Bot: ${data.message}`;
         messagesList.appendChild(responseElement);
 
         // Scroll to the bottom of the messages
         messagesList.scrollTop = messagesList.scrollHeight;
-    }, 1000);
+    } catch (error) {
+        console.error('Error calling the API:', error);
+        const errorElement = document.createElement('li');
+        errorElement.textContent = `Bot: Error calling the API`;
+        messagesList.appendChild(errorElement);
+    }
 }
 
 // Allow pressing Enter to send the message
