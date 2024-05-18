@@ -1,5 +1,18 @@
 # 部屬AWS
 
+## Services
+* Cloud9 - 前後端部署
+* Bedrock - LLM Models
+* SageMaker - Data Science
+* S3 - Storage
+* Amazon RDS PostgreSQL - for SageMaker vector database
+* DynamoDB - Conversation History database
+* Lambda - call function
+* API gateway - bind Lambda function
+
+## 待研究
+* agants - 
+
 ## 介面功能
 1. 多模態輸入 - 文字、圖片、影片、文件(pdf, word, txt...)
 2. 多模態輸出 - 文字、影片、圖片、文件
