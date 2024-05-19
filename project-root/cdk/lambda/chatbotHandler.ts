@@ -1,45 +1,20 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { DynamoDB } from 'aws-sdk';
+import { DynamoDB, SageMakerRuntime } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
-import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
 const db = new DynamoDB.DocumentClient();
-const bedrockClient = new BedrockRuntimeClient({ region: process.env.REGION });
+const runtime = new SageMakerRuntime();
 
-const invokeClaude3Sonnet = async (userMessage: string) => {
-    const input = {
-        body: new TextEncoder().encode(userMessage),
-        contentType: 'application/json',
-        accept: 'application/json',
-        modelId: 'claude-3-sonnet'
-    };
-    const command = new InvokeModelCommand(input);
-
-    try {
-        const response = await bedrockClient.send(command);
-        if ('body' in response) {
-            const responseBody = new TextDecoder().decode(response.body);
-            const parsedResponse = JSON.parse(responseBody);
-            if ('outputText' in parsedResponse) {
-                return parsedResponse.outputText;
-            }
-        }
-        throw new Error('Invalid response from Bedrock');
-    } catch (error) {
-        console.error('Error invoking Bedrock endpoint:', error);
-        throw new Error('Error invoking Bedrock endpoint');
-    }
-};
+const sagemakerEndpoint = 'https://your-sagemaker-endpoint.amazonaws.com';
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-    console.log('Received event:', JSON.stringify(event, null, 2));
-
     const body = JSON.parse(event.body || '{}');
     const userMessage = body.message;
 
     const chatId = uuidv4();
     const timestamp = new Date().toISOString();
 
+    // Save user message to DynamoDB
     const userMessageParams = {
         TableName: process.env.TABLE_NAME || '',
         Item: {
@@ -52,7 +27,6 @@ export const handler: APIGatewayProxyHandler = async (event) => {
 
     try {
         await db.put(userMessageParams).promise();
-        console.log('Saved user message to DynamoDB:', userMessageParams);
     } catch (error) {
         console.error('Error saving user message:', error);
         return {
@@ -63,19 +37,29 @@ export const handler: APIGatewayProxyHandler = async (event) => {
         };
     }
 
+    // Invoke SageMaker Endpoint
+    const params = {
+        EndpointName: sagemakerEndpoint,
+        Body: JSON.stringify({ input: userMessage }),
+        ContentType: 'application/json'
+    };
+
     let botResponse;
     try {
-        botResponse = await invokeClaude3Sonnet(userMessage);
-        console.log('Received response from Bedrock API:', botResponse);
+        const response = await runtime.invokeEndpoint(params).promise();
+        const responseBody = JSON.parse(response.Body as string);
+        botResponse = responseBody.output;
     } catch (error) {
+        console.error('Error invoking SageMaker endpoint:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({
-                message: 'Error invoking Bedrock endpoint'
+                message: 'Error invoking SageMaker endpoint'
             })
         };
     }
 
+    // Save bot response to DynamoDB
     const botMessageParams = {
         TableName: process.env.TABLE_NAME || '',
         Item: {
@@ -88,7 +72,6 @@ export const handler: APIGatewayProxyHandler = async (event) => {
 
     try {
         await db.put(botMessageParams).promise();
-        console.log('Saved bot message to DynamoDB:', botMessageParams);
     } catch (error) {
         console.error('Error saving bot message:', error);
         return {

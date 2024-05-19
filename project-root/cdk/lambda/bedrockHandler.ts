@@ -3,10 +3,19 @@ import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
-const db = new DynamoDB.DocumentClient();
+// 硬编码的 Bedrock API URL 和 API 密钥
+const bedrockEndpoint = 'https://uo9fqdi9rl.execute-api.us-west-2.amazonaws.com/prod/bedrock';
+const apiKey = 'H6M6hhpAO733XaFLYfwpl7YEd5cSloFR2LwTH966';
 
-const bedrockEndpoint = process.env.BEDROCK_ENDPOINT || '';
-const apiKey = process.env.BEDROCK_API_KEY || '';
+// 獲取環境變數
+const region = process.env.REGION || 'us-west-2'; // 默認值 us-west-2
+const tableName = process.env.TABLE_NAME || '';
+
+if (!region || !tableName) {
+    throw new Error('Missing required environment variables');
+}
+
+const db = new DynamoDB.DocumentClient({ region });
 
 const invokeClaude3Sonnet = async (userMessage: string) => {
     const payload = {
@@ -38,7 +47,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     const timestamp = new Date().toISOString();
 
     const userMessageParams = {
-        TableName: process.env.TABLE_NAME || '',
+        TableName: tableName,
         Item: {
             chatId,
             timestamp,
@@ -74,7 +83,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     }
 
     const botMessageParams = {
-        TableName: process.env.TABLE_NAME || '',
+        TableName: tableName,
         Item: {
             chatId,
             timestamp: new Date().toISOString(),
