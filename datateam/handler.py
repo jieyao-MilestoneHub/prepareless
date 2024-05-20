@@ -3,8 +3,12 @@ import botocore
 import os
 
 class S3Handler:
-    def __init__(self, bucket_name, aws_region='us-west-2'):
-        self.s3 = boto3.client('s3', region_name=aws_region)
+    def __init__(self, bucket_name, aws_region="us-west-2"):
+        self.s3 = boto3.client('s3', 
+                               region_name=aws_region,
+                               aws_access_key_id="YOUR_AWS_ACCESS_KEY_ID", 
+                               aws_secret_access_key="YOUR_AWS_SECRET_ACCESS_KEY")
+        
         self.bucket_name = bucket_name
 
     def validate_bucket(self):
@@ -69,3 +73,29 @@ class S3Handler:
             print(f"Folder {folder_name} created in {self.bucket_name}.")
         except Exception as e:
             print(f"Failed to create folder {folder_name} in {self.bucket_name}: {e}")
+
+    def download_folder(self, folder_name, local_dir=None):
+        """從 S3 下載資料夾"""
+        if local_dir is None:
+            local_dir = os.getcwd()
+        
+        try:
+            response = self.s3.list_objects_v2(Bucket=self.bucket_name, Prefix=folder_name)
+            if 'Contents' in response:
+                for item in response['Contents']:
+                    file_key = item['Key']
+                    file_path = os.path.join(local_dir, file_key)
+                    if not os.path.exists(os.path.dirname(file_path)):
+                        os.makedirs(os.path.dirname(file_path))
+                    self.s3.download_file(self.bucket_name, file_key, file_path)
+                    print(f"File {file_key} downloaded to {file_path}.")
+            else:
+                print(f"No files found in folder {folder_name} in bucket {self.bucket_name}.")
+        except Exception as e:
+            print(f"Failed to download folder {folder_name} from {self.bucket_name}: {e}")
+
+# 示例使用
+if __name__ == "__main__":
+    handler = S3Handler(bucket_name="your-bucket-name")
+    handler.validate_bucket()
+    handler.download_folder('your-folder-name')
