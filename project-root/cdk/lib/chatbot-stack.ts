@@ -9,7 +9,7 @@ export class ChatbotStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        // 创建DynamoDB表
+        // 建立DynamoDB表格
         const chatHistoryTable = new dynamodb.Table(this, 'ChatHistoryTable', {
             partitionKey: { name: 'chatId', type: dynamodb.AttributeType.STRING },
             sortKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
@@ -38,11 +38,11 @@ export class ChatbotStack extends cdk.Stack {
             },
         });
 
-        // 授予Lambda函数访问DynamoDB表的权限
+        // 授予Lambda函數存取DynamoDB表的權限
         chatHistoryTable.grantReadWriteData(chatbotHandler);
         chatHistoryTable.grantReadWriteData(bedrockHandler);
 
-        // 授予BedrockHandler Lambda调用Bedrock API的权限
+        // 授予BedrockHandler Lambda呼叫Bedrock API的權限
         const bedrockPolicy = new iam.PolicyStatement({
             actions: ['bedrock:InvokeModel'],
             resources: ['*'],
@@ -55,7 +55,7 @@ export class ChatbotStack extends cdk.Stack {
             description: 'This service serves the chatbot.',
         });
 
-        // 将Lambda函数与API Gateway集成
+        // 將Lambda函數與API Gateway集成
         const chatbotIntegration = new apigateway.LambdaIntegration(chatbotHandler, {
             requestTemplates: { 'application/json': '{"statusCode": 200}' }
         });
@@ -63,23 +63,23 @@ export class ChatbotStack extends cdk.Stack {
             requestTemplates: { 'application/json': '{"statusCode": 200}' }
         });
 
-        // 创建API Gateway端点
+        // 建立API Gateway端點
         const chatbotResource = api.root.addResource('chatbot');
         chatbotResource.addMethod('POST', chatbotIntegration);
 
         const bedrockResource = api.root.addResource('bedrock');
         bedrockResource.addMethod('POST', bedrockIntegration);
 
-        // 创建API Gateway角色并授予必要权限
+        // 建立API Gateway角色並授予必要權限
         const apiGatewayRole = new iam.Role(this, 'ApiGatewayRole', {
             assumedBy: new iam.ServicePrincipal('apigateway.amazonaws.com'),
         });
 
-        // 授予API Gateway角色调用每个Lambda函数的权限
+        // 授予API Gateway角色呼叫每個Lambda函數的權限
         chatbotHandler.grantInvoke(apiGatewayRole);
         bedrockHandler.grantInvoke(apiGatewayRole);
 
-        // 将策略附加到API Gateway角色
+        // 將策略附加到API Gateway角色
         apiGatewayRole.addToPolicy(new iam.PolicyStatement({
             actions: ['lambda:InvokeFunction'],
             resources: [chatbotHandler.functionArn, bedrockHandler.functionArn],

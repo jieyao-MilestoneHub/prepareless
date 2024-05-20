@@ -3,12 +3,12 @@ import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
-// 硬编码的 Bedrock API URL 和 API 密钥
+//  Bedrock API URL 和 API 密鑰
 const bedrockEndpoint = 'https://uo9fqdi9rl.execute-api.us-west-2.amazonaws.com/prod/bedrock';
 const apiKey = 'H6M6hhpAO733XaFLYfwpl7YEd5cSloFR2LwTH966';
 
 // 獲取環境變數
-const region = process.env.REGION || 'us-west-2'; // 默認值 us-west-2
+const region = process.env.REGION || 'us-west-2';
 const tableName = process.env.TABLE_NAME || '';
 
 if (!region || !tableName) {
